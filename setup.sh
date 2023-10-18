@@ -143,5 +143,3 @@ sudo mysql --execute="EXIT;"
  
 
 echo "foo"
-
-has context menu

@@ -13,6 +13,11 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
+variable "aws_profile" {
+  type    = string
+  default = "dev"
+}
+
 variable "source_ami" {
 
   type    = string
@@ -34,7 +39,7 @@ variable "subnet_id" {
 
 variable "ami_users" {
   type    = list(string)
-  default = [413925622897]
+  default = ["413925622897","581948388212"]
 }
 source "amazon-ebs" "debian" {
 
@@ -55,6 +60,7 @@ source "amazon-ebs" "debian" {
   ssh_username = "${var.ssh_username}"
   subnet_id    = "${var.subnet_id}"
   ami_users    = "${var.ami_users}"
+  profile = "${var.aws_profile}"
 
   launch_block_device_mappings {
     delete_on_termination = true
@@ -69,10 +75,10 @@ build {
   name    = "learn-packer"
   sources = ["source.amazon-ebs.debian"]
 
-  # provisioner "file" {
-  #   source      = "webapp.zip"
-  #   destination = "~/RenamedWebapp"
-  # }
+  provisioner "file" {
+    source      = "webapp.zip"
+    destination = "~/WebAppRenamed"
+  }
 
   provisioner "shell" {
     scripts = ["./setup.sh"]
