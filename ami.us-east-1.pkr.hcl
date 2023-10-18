@@ -39,7 +39,7 @@ variable "subnet_id" {
 
 variable "ami_users" {
   type    = list(string)
-  default = ["413925622897","581948388212"]
+  default = ["413925622897", "581948388212"]
 }
 source "amazon-ebs" "debian" {
 
@@ -60,7 +60,7 @@ source "amazon-ebs" "debian" {
   ssh_username = "${var.ssh_username}"
   subnet_id    = "${var.subnet_id}"
   ami_users    = "${var.ami_users}"
-  profile = "${var.aws_profile}"
+  profile      = "${var.aws_profile}"
 
   launch_block_device_mappings {
     delete_on_termination = true
