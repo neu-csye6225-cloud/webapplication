@@ -2,10 +2,6 @@
 
  
 
- 
-
- 
-
 # Update package lists
 
  
@@ -26,7 +22,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
 
  
 
- 
+
 
  
 

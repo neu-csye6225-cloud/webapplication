@@ -19,13 +19,6 @@ jobs:
       with:
         node-version: 18
 
-    - name: install the dependencies
-      run: npm install
-
-    - name: run the integration
-      run: |
-        npm test
-
     - name: Display .env file
       run: |
         touch .env
@@ -43,6 +36,13 @@ jobs:
         sudo systemctl status mysql
         mysql -u ${{ secrets.MYSQL_USER }} -p"${{ secrets.MYSQL_PASSWORD }}"
 
+    - name: install the dependencies
+      run: npm install
+
+    - name: run the integration
+      run: |
+        npm test
+        
     - name: Zip webapp contents
       run: |
         zip -r webapp.zip ./
@@ -75,5 +75,3 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
       run: packer build ami.us-east-1.pkr.hcl
-
-   
