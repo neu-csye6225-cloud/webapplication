@@ -19,6 +19,13 @@ jobs:
       with:
         node-version: 18
 
+    - name: install the dependencies
+      run: npm install
+
+    - name: run the integration
+      run: |
+        npm test
+
     - name: Display .env file
       run: |
         touch .env
@@ -69,9 +76,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
       run: packer build ami.us-east-1.pkr.hcl
 
-    - name: install the dependencies
-      run: npm install
-
-    - name: run the integration
-      run: |
-        npm test
+   
