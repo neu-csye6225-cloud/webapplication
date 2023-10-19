@@ -30,13 +30,6 @@ variable "ssh_username" {
   default = "admin"
 }
 
-variable "subnet_id" {
-
-  type    = string
-  default = "subnet-03686cd1cf795a7f6"
-
-}
-
 variable "ami_users" {
   type    = list(string)
   default = ["413925622897", "581948388212"]
@@ -58,7 +51,6 @@ source "amazon-ebs" "debian" {
 
   source_ami   = "${var.source_ami}"
   ssh_username = "${var.ssh_username}"
-  subnet_id    = "${var.subnet_id}"
   ami_users    = "${var.ami_users}"
   profile      = "${var.aws_profile}"
 

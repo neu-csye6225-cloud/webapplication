@@ -2,9 +2,6 @@
 
  
 
- 
-
- 
 
 # Update package lists
 
@@ -24,11 +21,6 @@ sudo apt-get update
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
 
- 
-
- 
-
- 
 
 # Install MariaDB server and client
 
