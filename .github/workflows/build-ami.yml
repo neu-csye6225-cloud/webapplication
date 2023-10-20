@@ -42,7 +42,7 @@ jobs:
     - name: run the integration
       run: |
         npm test
-  
+
     - name: Zip webapp contents
       run: |
         zip -r webapp.zip ./

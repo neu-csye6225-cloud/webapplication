@@ -3,8 +3,6 @@
  
 
 
-# Update package lists
-
  
 
 sudo apt-get update
