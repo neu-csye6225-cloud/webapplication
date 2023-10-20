@@ -18,7 +18,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "mocha test/integration.test.js"
+
+    "test": "npx mocha test/integration.test.js"
+
   },
   "author": "",
   "license": "ISC"
