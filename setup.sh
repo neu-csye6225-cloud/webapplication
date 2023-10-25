@@ -4,11 +4,11 @@
  
 
  
-
+sudo apt-get update
 # Check Node.js version
 
  
-
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
 
 sudo DEBIAN_FRONTEND=noninteractive node -v
  
