@@ -1,6 +1,14 @@
 #!/bin/bash
 
-sudo apt-get update
+
+ 
+
+ 
+
+# Check Node.js version
+
+ 
+
 
 sudo DEBIAN_FRONTEND=noninteractive node -v
  
@@ -25,10 +33,17 @@ sudo mysql --execute="EXIT;"
 
 # Display a message
 
-echo "foo"
+
 echo "web application service starting now"
 # webapplication system service
+# Install and configure your service
 sudo cp webapplication.service /etc/systemd/system/
+sudo systemctl start webapplication
+sudo systemctl enable webapplication
+
 sudo systemctl daemon-reload
-sudo systemctl enable webapplication.service
-sudo systemctl start webapplication.service
+
+
+# webapplication system service
+
+
