@@ -135,7 +135,10 @@ sudo mysql --execute="EXIT;"
 echo "foo"
 
 # webapplication system service
+# Install and configure your service
 sudo cp webapplication.service /etc/systemd/system/
+sudo systemctl start webapplication
+sudo systemctl enable webapplication
+
+
 sudo systemctl daemon-reload
-sudo systemctl enable webapplication.service
-sudo systemctl start webapplication.service
