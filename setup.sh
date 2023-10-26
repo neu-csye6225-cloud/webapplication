@@ -42,7 +42,11 @@ echo "web application service starting now"
 sudo cp /home/admin/WebApp/webapplication.service /lib/systemd/system/webapplication.service
 
 
+sudo cp /home/admin/WebApp/webapplication.service /lib/systemd/system/webapplication.service
+echo "did we copy the files"
 
+
+echo "started the web application"
 sudo systemctl start webapplication
 sudo systemctl enable webapplication
 
