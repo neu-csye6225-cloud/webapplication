@@ -47,8 +47,12 @@ echo "did we copy the files"
 
 
 echo "started the web application"
-sudo systemctl start webapplication
-sudo systemctl enable webapplication
+
+
+sudo systemctl start webapplication.service
+echo "enabled the web application"
+sudo systemctl enable webapplication.service
+
 
 sudo systemctl daemon-reload
 

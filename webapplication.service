@@ -3,7 +3,7 @@ After=network.target
 Wants=cloud-init.target
 
 [Service]
-Type=Simple
+Type=simple
 User=csye6225
 Group=csye6225
 WorkingDirectory=/home/admin/WebApp
