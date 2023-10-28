@@ -1,9 +1,7 @@
 #!/bin/bash
 
 
- 
 
- 
 sudo apt-get update
 # Check Node.js version
 
@@ -21,15 +19,6 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y unzip
 sudo unzip WebAppRenamed -d WebApp
 
 # Start MySQL shell
-
-sudo mysql
-
-
-sudo mysql --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'; FLUSH PRIVILEGES; CREATE DATABASE Assignment3;"
-# Exit MySQL shell
-
-
-sudo mysql --execute="EXIT;"
 
 # Display a message
 
