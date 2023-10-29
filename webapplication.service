@@ -1,12 +1,12 @@
-Description=My CSYE6225 Web application
-After=network.target
-Wants=cloud-init.target
+[Unit]
+After=cloud-final.service
+Wants=cloud-final.service
 
 [Service]
 Type=simple
 User=csye6225
 Group=csye6225
-WorkingDirectory=/home/admin/WebApp
+
 ExecStart=/usr/local/bin/node /home/admin/WebApp/app.js
 EnvironmentFile=/home/admin/WebApp/.env
 Restart=always
