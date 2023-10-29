@@ -1,6 +1,6 @@
-Description=My CSYE6225 Web application
-After=network.target
-Wants=cloud-init.target
+[Unit]
+After=cloud-final.service
+Wants=cloud-final.service
 
 [Service]
 Type=simple
