@@ -10,5 +10,4 @@ const sequelize = new Sequelize({
   database: process.env.MYSQL_DATABASE,
   
 });
-
 export default sequelize;
