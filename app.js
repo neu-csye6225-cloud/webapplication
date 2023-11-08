@@ -24,5 +24,4 @@ app.use((req, res, next) => {
 })
 
 bootstrap()
-
 export default app;

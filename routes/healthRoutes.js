@@ -1,6 +1,8 @@
 import express from "express";
 import mysql from 'mysql2';
 const app = express();
+import logger from "../logger.js";
+ // Adjust the path as needed
 
 app.use(express.json());
 
@@ -25,9 +27,8 @@ app.get('/healthz', async (req,res) => {
     user:"root",
     password:"root@1234",
     database: "sys"
-    
   });  
-  
+  logger.warn('Make sure to check the variable involved in connecting to database');
   if (Object.keys(req.body).length !== 0) {
     
     res.status(400).json();
@@ -47,7 +48,7 @@ app.get('/healthz', async (req,res) => {
               isHealthy = true
           }
          console.log("Connected!");
-        
+         logger.info("Connected")
           if(isHealthy){  
             
             //add no cache header
@@ -60,9 +61,8 @@ app.get('/healthz', async (req,res) => {
             
           }
           else{  
-            console.log("Connection Interrupted!")  
+
             //Add Cache Header
-           
             res.status(503).json();
             
           }

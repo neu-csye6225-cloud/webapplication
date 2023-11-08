@@ -9,8 +9,8 @@ sudo DEBIAN_FRONTEND=noninteractive node -v
  
 sudo DEBIAN_FRONTEND=noninteractive apt install -y unzip
 
+npm install winston
 
-echo "installing cloudwatch"
 sudo apt-get install rpm
 
 wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
