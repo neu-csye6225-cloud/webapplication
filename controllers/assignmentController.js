@@ -1,13 +1,14 @@
 import * as assignmentService from "../services/assignmentService.js";
 import { getCredentials } from "../services/auth.js";
 //get all
-
+import logger from "./../app.js"
 export const getAllAssignments = async (req, res) => {
   try {
     // Fetch all assignments
     const assignments = await assignmentService.getAllAssignments();
 
     // Return a 200 OK response with the assignments
+    logger.info("Retrieved all the assignments")
     res.status(200).json(assignments);
   } catch (error) {
     // Handle any other errors and return a 403 Forbidden or 500 Internal Server Error response
@@ -27,11 +28,12 @@ export const createAssignment = async (req, res) => {
 
     // Create the assignment
     const assignment = await assignmentService.createAssignment(assignmentData);
-
+    logger.info("created the assignments")
     // Return a 201 Created response with the created assignment
     res.status(201).json(assignment);
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
+    logger.error("assignments not created")
     res.status(400).json({ error: error.message });
   }
 };
@@ -46,11 +48,13 @@ export const getAssignmentById = async (req, res) => {
     if (!assignment) {
       // If assignment is not found, return a 404 Not Found response
       res.status(404).json({ error: "Assignment not found" });
+      logger.error("assignment not found")
       return;
     }
 
     // If the assignment was successfully retrieved and the user is authorized, return a 200 OK response with the assignment data
     res.status(200).json(assignment);
+    logger.info("assignment found")
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
     res.status(400).json({ error: error.message });
@@ -64,8 +68,10 @@ export const deleteAssignment = async (req, res) => {
   try {
     if (await assignmentService.deleteAssignmentById(id, email)) {
       res.status(204).send();
+      logger.info("assignment deleted")
     } else {
       res.status(403).send();
+      logger.warn("error assignment not found")
     }
     // If the assignment was successfully deleted, return a 204 No Content response
   } catch (error) {
@@ -78,12 +84,13 @@ export const updateAssignment = async (req, res) => {
   const { id } = req.params;
   const assignmentData = req.body;
   const email = getCredentials(req)[0];
-  
   try {
     if (await assignmentService.updateAssignmentById(id, assignmentData, email)) {
       res.status(204).send();
+      logger.info("assignment updated")
     } else {
       res.status(403).send();
+      logger.info("assignment not updated")
     }
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
