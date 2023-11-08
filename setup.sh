@@ -11,6 +11,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y unzip
 
 
 echo "installing cloudwatch"
+
 sudo apt install amazon-cloudwatch-agent -y
 wget https://amazoncloudwatch-agent.s3.amazonaws.com/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
 sudo tee /opt/aws/amazon-cloudwatch-agent/bin/config.json <<EOF 
@@ -47,6 +48,7 @@ EOF
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
 
 tail -f /opt/aws/amazon-cloudwatch-agent/logs/amazon-cloudwatch-agent.log
+
 sudo unzip WebAppRenamed -d WebApp
 
 sudo groupadd csye6225
