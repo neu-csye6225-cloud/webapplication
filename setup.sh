@@ -12,9 +12,11 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y unzip
 
 echo "installing cloudwatch"
 sudo apt-get install rpm
+
 wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
 
 sudo dpkg -i amazon-cloudwatch-agent.deb
+
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 sudo unzip WebAppRenamed -d WebApp
 
