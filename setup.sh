@@ -15,11 +15,14 @@ wget https://amazoncloudwatch-agent-us-east-1.s3.us-east-1.amazonaws.com/debian/
 
 sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
 
+echo "installing agent"
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m on
 
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m status
+
+
 sudo unzip WebAppRenamed -d WebApp
 
 sudo groupadd csye6225
