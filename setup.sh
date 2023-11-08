@@ -22,49 +22,32 @@ sudo apt-get -f install -y
 sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json > /dev/null <<EOF
 {
   "agent": {
-    "metrics_collection_interval": 60,
-    "run_as_user": "cwagent"
-  },
-  "metrics": {
-    "append_dimensions": {
-      "AutoScalingGroupName": "\${aws:AutoScalingGroupName}",
-      "ImageId": "\${aws:ImageId}",
-      "InstanceId": "\${aws:InstanceId}",
-      "InstanceType": "\${aws:InstanceType}"
-    },
-    "metrics_collected": {
-      "cpu": {
-        "measurement": ["usage_idle", "usage_user", "usage_system"],
-        "metrics_collection_interval": 60,
-        "totalcpu": false
-      },
-      "disk": {
-        "measurement": ["used_percent", "inodes_free"],
-        "metrics_collection_interval": 60,
-        "resources": ["/", "/var/nfs"]
-      },
-      "mem": {
-        "measurement": ["mem_used_percent"],
-        "metrics_collection_interval": 60
-      }
-    }
+      "metrics_collection_interval": 10,
+      "logfile": "/var/logs/amazon-cloudwatch-agent.log"
   },
   "logs": {
-    "logs_collected": {
-      "files": {
-        "collect_list": [
-          {
-            "file_path": "/var/log/messages",
-            "log_group_name": "sample-log-group",
-            "log_stream_name": "messages"
+      "logs_collected": {
+          "files": {
+              "collect_list": [
+                  {
+                      "file_path": "/home/admin/WebApp/logs/app.log",
+                      "log_group_name": "csye6225",
+                      "log_stream_name": "webapp"
+                  }
+              ]
           }
-        ]
-      }
-    },
-    "log_stream_name": "cloudwatch-agent",
-    "force_flush_interval" : 15
+      },
+      "log_stream_name": "cloudwatch_log_stream"
   },
-  "use_gzip_http_content_encoding": true
+  "metrics":{
+    "metrics_collected":{
+       "statsd":{
+          "service_address":":8125",
+          "metrics_collection_interval":15,
+          "metrics_aggregation_interval":300
+       }
+    }
+ }
 }
 EOF
 
