@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo apt-get update
+
 echo "installing cloudwatch"
 # Update the package manager
 sudo yum update -y
@@ -18,6 +19,7 @@ sudo systemctl start amazon-cloudwatch-agent
 
 # Verify the status of the agent
 sudo systemctl status amazon-cloudwatch-agent
+
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
 
