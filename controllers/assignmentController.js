@@ -1,7 +1,7 @@
 import * as assignmentService from "../services/assignmentService.js";
 import { getCredentials } from "../services/auth.js";
 //get all
-import logger from "./../app.js"
+import logger from "../logger.cjs"
 export const getAllAssignments = async (req, res) => {
   try {
     // Fetch all assignments
