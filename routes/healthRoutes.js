@@ -1,7 +1,7 @@
 import express from "express";
 import mysql from 'mysql2';
 const app = express();
-import logger from "../logger.js";
+import logger from "../logger.cjs";
  // Adjust the path as needed
 
 app.use(express.json());

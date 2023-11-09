@@ -1,30 +1,22 @@
-import winston from 'winston/lib/winston/config/index.js';
-import { createLogger,format,transports } from 'winston';
-
-import fs from 'fs'
+import winston from 'winston';
 import path from 'path';
 
-const logDirectory = 'logs'; // Path to the log directory
+// Define the log directory path relative to the current directory
+const logDirectory = path.join(__dirname, 'log');
 
-// Ensure the log directory exists
-if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory);
-}
-// Create a new logger instance
-const logger = createLogger({
+// Create the logger with the log directory
+const logger = winston.createLogger({
   level: 'info',
-  format: format.combine(
-    format.timestamp(),
-    format.printf(({ timestamp, level, message }) => {
-      return `${timestamp} ${level}: ${message}`;
-    })
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
   ),
   transports: [
-    new transports.File({
-      filename: path.join(logDirectory, 'app.log'), // Specify the log file path
-      level: 'info',
-    }),
-  ],
+    new winston.transports.Console(),
+    new winston.transports.File({
+      filename: path.join(logDirectory, 'app.log')
+    })
+  ]
 });
 
 export default logger;

@@ -2,10 +2,11 @@ import { where } from "sequelize";
 import { Assignment } from "../models/assignmentModel.js";
 import { getCredentials } from "./auth.js";
 import { User } from "../models/userModel.js";
+import logger from "./../app.js"
 
 export const getAllAssignments = async (req, res) => {
   const assignments = await Assignment.findAll();
-
+  logger.info("retrieved all assignments")
   return assignments;
 };
 
@@ -29,6 +30,7 @@ export const deleteAssignmentById = async (id, email) => {
 
     if (email == assignment.createdBy) {
       await assignment.destroy();
+      logger.info("assignment deleted")
       return true;
     } else {
       return false;
@@ -49,6 +51,7 @@ export const updateAssignmentById = async (id, assignmentData, email) => {
 
     if (email == assignment.createdBy) {
       await assignment.save();
+      logger.info("assignment updated")
       return true;
     } else {
       return false;
@@ -61,7 +64,9 @@ export const updateAssignmentById = async (id, assignmentData, email) => {
 export const findAssignment = async (id) => {
   const assignment = await Assignment.findOne({ where: { id } });
   if (!assignment) {
+    logger.error("assignment not found");
     throw new Error("Assignment not found");
   }
+  logger.info("assignment found");
   return assignment;
 };
