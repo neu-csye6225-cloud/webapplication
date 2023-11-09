@@ -1,9 +1,9 @@
-import winston from 'winston';
-import path from 'path';
-
+const winston = require('winston');
+const path = require('path');
+ 
 // Define the log directory path relative to the current directory
 const logDirectory = path.join(__dirname, 'log');
-
+ 
 // Create the logger with the log directory
 const logger = winston.createLogger({
   level: 'info',
@@ -18,5 +18,5 @@ const logger = winston.createLogger({
     })
   ]
 });
-
-export default logger;
+ 
+module.exports = logger
