@@ -12,9 +12,20 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y unzip
 npm install winston
 
 sudo apt-get install rpm
+CONFIG_FILE="/opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json"
+AGENT_DIR="/opt/aws/amazon-cloudwatch-agent/bin/"
 
-wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
-sudo tee /opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json > /dev/null <<EOF
+# Create the directory if it doesn't exist
+sudo mkdir -p "$AGENT_DIR"
+
+# Check if the directory and file exist
+if [ ! -d "$AGENT_DIR" ]; then
+    echo "Error: Directory does not exist: $AGENT_DIR"
+    exit 1
+fi
+
+# Create a JSON configuration file using sudo tee
+sudo tee "$CONFIG_FILE" > /dev/null <<EOF
 {
   "agent": {
     "metrics_collection_interval": 10,
@@ -45,9 +56,21 @@ sudo tee /opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json > /dev/null
   }
 }
 EOF
+
+# Verify that the JSON configuration file has been created
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: Configuration file not created: $CONFIG_FILE"
+    exit 1
+fi
+wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
+
 sudo dpkg -i amazon-cloudwatch-agent.deb
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m onPremise -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json
 sudo apt-get -f install -y
+
+sudo systemctl enable amazon-cloudwatch-agent
+sudo systemctl start amazon-cloudwatch-agent
+sudo systemctl restart amazon-cloudwatch-agent
 
 sudo unzip WebAppRenamed -d WebApp
 
