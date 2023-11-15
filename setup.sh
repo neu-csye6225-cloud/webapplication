@@ -30,7 +30,7 @@ sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json > /de
           "files": {
               "collect_list": [
                   {
-                      "file_path": "/home/admin/WebApp/logs/app.log",
+                      "file_path": "/home/admin/WebApp/log/app.log",
                       "log_group_name": "csye6225",
                       "log_stream_name": "webapp"
                   }
