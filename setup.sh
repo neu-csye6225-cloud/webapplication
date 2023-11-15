@@ -20,7 +20,7 @@ sudo apt-get -f install -y
 
 # Create the CloudWatch agent configuration file
 
-sudo cp /home/admin/WebApp/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+
 
 
 sudo unzip WebAppRenamed -d WebApp
