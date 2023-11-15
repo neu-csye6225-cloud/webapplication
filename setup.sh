@@ -30,9 +30,9 @@ sudo tee /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json > /de
           "files": {
               "collect_list": [
                   {
-                      "file_path": "/home/admin/WebApp/logs/app.log",
+                      "file_path": "/home/admin/WebApp/log/app.log",
                       "log_group_name": "csye6225",
-                      "log_stream_name": "webapp"
+                      "log_stream_name": "webapplication"
                   }
               ]
           }
@@ -53,8 +53,12 @@ EOF
 
 # Start the CloudWatch agent and enable it on boot
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a configure -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json -s
-sudo systemctl enable amazon-cloudwatch-agent
-sudo systemctl start amazon-cloudwatch-agent
+
+# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+
+# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m on
+
+# sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m status
 
 sudo unzip WebAppRenamed -d WebApp
 
