@@ -14,14 +14,40 @@ npm install winston
 sudo apt-get install rpm
 
 wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb
-
+sudo tee /opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json > /dev/null <<EOF
+{
+  "agent": {
+    "metrics_collection_interval": 10,
+    "logfile": "/var/logs/amazon-cloudwatch-agent.log"
+  },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/home/admin/WebApp/log/app.log",
+            "log_group_name": "csye6225",
+            "log_stream_name": "webapp"
+          }
+        ]
+      }
+    },
+    "log_stream_name": "cloudwatch_log_stream"
+  },
+  "metrics": {
+    "metrics_collected": {
+      "statsd": {
+        "service_address": ":8125",
+        "metrics_collection_interval": 15,
+        "metrics_aggregation_interval": 300
+      }
+    }
+  }
+}
+EOF
 sudo dpkg -i amazon-cloudwatch-agent.deb
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m onPremise -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json
 sudo apt-get -f install -y
-
-# Create the CloudWatch agent configuration file
-
-sudo cp /home/admin/WebApp/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
-
 
 sudo unzip WebAppRenamed -d WebApp
 
@@ -30,7 +56,7 @@ sudo groupadd csye6225
 sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225 
 
 sudo cp /home/admin/WebApp/webapplication.service /lib/systemd/system/webapplication.service
-sudo cp /home/admin/WebApp/amazon-cloudwatch-agent.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+
 sudo systemctl daemon-reload
 sudo systemctl enable webapplication
 sudo systemctl start webapplication
