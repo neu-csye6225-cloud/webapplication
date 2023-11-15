@@ -68,6 +68,10 @@ sudo dpkg -i amazon-cloudwatch-agent.deb
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m onPremise -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/cloudwatch-config.json
 sudo apt-get -f install -y
 
+sudo systemctl enable amazon-cloudwatch-agent
+sudo systemctl start amazon-cloudwatch-agent
+sudo systemctl restart amazon-cloudwatch-agent
+
 sudo unzip WebAppRenamed -d WebApp
 
 sudo groupadd csye6225
