@@ -28,12 +28,12 @@ export const createAssignment = async (req, res) => {
 
     // Create the assignment
     const assignment = await assignmentService.createAssignment(assignmentData);
-    logger.info("created the assignments")
+    logger.info("Created the assignments in DB")
     // Return a 201 Created response with the created assignment
     res.status(201).json(assignment);
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
-    logger.error("assignments not created")
+    logger.error("Assignments are not created in DB")
     res.status(400).json({ error: error.message });
   }
 };
@@ -48,13 +48,13 @@ export const getAssignmentById = async (req, res) => {
     if (!assignment) {
       // If assignment is not found, return a 404 Not Found response
       res.status(404).json({ error: "Assignment not found" });
-      logger.error("assignment not found")
+      logger.error("Assignment is not found")
       return;
     }
 
     // If the assignment was successfully retrieved and the user is authorized, return a 200 OK response with the assignment data
     res.status(200).json(assignment);
-    logger.info("assignment found")
+    logger.info("Retrieved Assignment")
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
     res.status(400).json({ error: error.message });
@@ -68,10 +68,10 @@ export const deleteAssignment = async (req, res) => {
   try {
     if (await assignmentService.deleteAssignmentById(id, email)) {
       res.status(204).send();
-      logger.info("assignment deleted")
+      logger.info("Assignment Deleted");
     } else {
       res.status(403).send();
-      logger.warn("error assignment not found")
+      logger.warn("ERROR! Assignment not found");
     }
     // If the assignment was successfully deleted, return a 204 No Content response
   } catch (error) {
@@ -87,10 +87,10 @@ export const updateAssignment = async (req, res) => {
   try {
     if (await assignmentService.updateAssignmentById(id, assignmentData, email)) {
       res.status(204).send();
-      logger.info("assignment updated")
+      logger.info("Assignment updated")
     } else {
       res.status(403).send();
-      logger.info("assignment not updated")
+      logger.info("Assignment not updated")
     }
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response

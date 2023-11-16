@@ -3,7 +3,6 @@ import mysql from 'mysql2';
 const app = express();
 
 import logger from "../logger.cjs";
- // Adjust the path as needed
 
 app.use(express.json());
 
@@ -29,7 +28,7 @@ app.get('/healthz', async (req,res) => {
     password:"root@1234",
     database: "sys"
   });  
-  logger.warn('Make sure to check the variable involved in connecting to database');
+  logger.info('healthz connected');
   if (Object.keys(req.body).length !== 0) {
     
     res.status(400).json();
@@ -49,7 +48,7 @@ app.get('/healthz', async (req,res) => {
               isHealthy = true
           }
          console.log("Connected!");
-         logger.info("Connected")
+         logger.info("Connection to the database established!")
           if(isHealthy){  
             
             //add no cache header
