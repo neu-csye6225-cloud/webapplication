@@ -2,9 +2,10 @@ import express from "express";
 import mysql from 'mysql2';
 const app = express();
 
+import logger from "../logger.cjs";
+
 app.use(express.json());
 
-//HTTP error except GET method
 app.use((req, res, next) => {
   if (req.method!== 'GET') {
 
@@ -23,11 +24,10 @@ app.get('/healthz', async (req,res) => {
     host:"localhost",
     port: '3306',
     user:"root",
-    password:"root@1234",
+    password:"root",
     database: "sys"
-    
   });  
-  
+  logger.info('healthz connected');
   if (Object.keys(req.body).length !== 0) {
     
     res.status(400).json();
@@ -47,7 +47,7 @@ app.get('/healthz', async (req,res) => {
               isHealthy = true
           }
          console.log("Connected!");
-        
+         logger.info("Connection to the database established!")
           if(isHealthy){  
             
             //add no cache header
@@ -60,15 +60,11 @@ app.get('/healthz', async (req,res) => {
             
           }
           else{  
-            console.log("Connection Interrupted!")  
-            //Add Cache Header
-           
             res.status(503).json();
             
           }
         });
   });
-
-  export default app;
+export default app;
 
 
