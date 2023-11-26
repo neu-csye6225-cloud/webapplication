@@ -25,7 +25,6 @@ export const createAssignment = async (req, res) => {
 
   try {
     assignmentData.createdBy = getCredentials(req)[0];
-
     // Create the assignment
     const assignment = await assignmentService.createAssignment(assignmentData);
     logger.info("Created the assignments in DB")
@@ -95,5 +94,18 @@ export const updateAssignment = async (req, res) => {
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
     res.status(400).json({ error: error.message });
+  }
+};
+
+//submit assignment controller code
+export const submitAssignment = async (req, res) => {
+  const  id  = req.params;
+  const  submission_url  = req.body;
+
+  try {
+    const submission = await assignmentService.createSubmission(id, submission_url);
+    res.status(201).json(submission);
+  } catch (error) {
+    res.status(400).json({error:error.message});
   }
 };

@@ -6,7 +6,6 @@ import logger from "../logger.cjs";
 
 app.use(express.json());
 
-//HTTP error except GET method
 app.use((req, res, next) => {
   if (req.method!== 'GET') {
 
@@ -25,7 +24,7 @@ app.get('/healthz', async (req,res) => {
     host:"localhost",
     port: '3306',
     user:"root",
-    password:"root@1234",
+    password:"root",
     database: "sys"
   });  
   logger.info('healthz connected');

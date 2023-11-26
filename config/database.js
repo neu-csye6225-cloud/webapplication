@@ -4,11 +4,11 @@ dotenv.config()
 const sequelize = new Sequelize({
 
 
-  dialect: process.env.DB_DIALECT,
-  host: process.env.MYSQL_HOST,
-  username: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  dialect: "mysql",//process.env.DB_DIALECT,
+  host:"localhost", //process.env.MYSQL_HOST,
+  username: "root",//process.env.MYSQL_USER,
+  password: "root",//process.env.MYSQL_PASSWORD,
+  database: "sys",//process.env.MYSQL_DATABASE,
   
 });
 export default sequelize;
