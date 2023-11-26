@@ -24,5 +24,3 @@ export const getCredentials = (req)=>{;
     const arr= originalCred.split(':');
     return arr;
 }
-
-

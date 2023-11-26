@@ -10,4 +10,5 @@ router.get('/v1/assignments/:id', checkToken, assignmentController.getAssignment
 router.delete('/v1/assignments/:id',checkToken,assignmentController.deleteAssignment);
 router.put('/v1/assignments/:id', checkToken, assignmentController.updateAssignment);
 router.post('/v1/assignments/:id/submission',checkToken, assignmentController.submitAssignment);
+
 export default router;

@@ -60,14 +60,11 @@ app.get('/healthz', async (req,res) => {
             
           }
           else{  
-
-            //Add Cache Header
             res.status(503).json();
             
           }
         });
   });
-
-  export default app;
+export default app;
 
 

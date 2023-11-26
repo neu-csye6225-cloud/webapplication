@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import { parseCSV } from "../scripts/userScripts.js";
 import { Assignment } from "../models/assignmentModel.js";
 import { Submission } from "../models/submission.js";
+import { where } from "sequelize";
+
 // Service function to get all users
 export const bootstrap = async () => {
   await User.sync();
@@ -45,7 +47,6 @@ export const bootstrap = async () => {
 export const findUserbyUsername = async (username) => {
   const email = username;
   let user = await User.findOne({ where: { email } });
-  // console.log(user);
   return user;
 };
 
