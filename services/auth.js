@@ -17,14 +17,10 @@ export async function checkToken(req, res ,next){
     return next()
 }
 
-export const getCredentials = (req)=>{
-    console.log(req.header('Authorization'));
+export const getCredentials = (req)=>{;
     const token = req.header('Authorization')
     //decode the base64 to string
     const originalCred = Buffer.from(token.substring(6),'base64').toString('utf-8')
     const arr= originalCred.split(':');
     return arr;
-
 }
-
-
