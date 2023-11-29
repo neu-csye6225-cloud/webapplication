@@ -4,7 +4,7 @@ import * as userController from '../controllers/userController.js'
 const router = Router();
 
 
-router.route("/get") //.get is inbuilt method for get request
-    .get(userController.bootstrapController); //
+router.route("/get") 
+    .get(userController.bootstrapController); 
 
 export default router;

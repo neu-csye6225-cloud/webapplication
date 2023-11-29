@@ -57,7 +57,6 @@ jobs:
       with:
         node-version: v18.17.1
 
-
     - name: Set up Packer
       run: |
         wget https://releases.hashicorp.com/packer/1.7.3/packer_1.7.3_linux_amd64.zip
@@ -68,8 +67,7 @@ jobs:
 
     - name: Initialize Packer
       run: packer init .
-
-
+#try
     - name: Build AMI
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
