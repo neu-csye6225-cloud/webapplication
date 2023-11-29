@@ -100,7 +100,10 @@ export const createSubmission = async (assignmentId, submissionUrl) => {
       submission_url: suburl,
       submission_updated: new Date().toISOString(),
     });
-    const message = 'Hello, this is a test message!';
+    const message = {
+      assignmentId:id,
+      submissionUrl:suburl,
+    }
     publishToSNS(message,suburl).then(messageId => {
     console.log('Message successfully published with ID:', messageId);
   })
@@ -143,37 +146,33 @@ export const getAttempts = async (id) => {
   }
 };
 
-const awsProfile = 'dev';
-AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: awsProfile });
+// const awsProfile = 'dev';
+// AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: awsProfile });
 
 
 AWS.config.update({
-  region: 'US', 
+  region: 'us-east-1', 
   credentials: {
     accessKeyId: 'AKIAWAX7DYRY45RJBJ6D', // Replace with your access key ID
     secretAccessKey: 'xt1yxcubtvMmZrADSg7uhqpYBGJXQHhmwyPHtia8' // Replace with your secret access key
   }
 });
 
-export const publishToSNS = async (message,url_sns) => {
-
-  const mes = {
-    default: 'Submission details', 
-    url_sns, 
-  };
-  
-  const params = {
-    Message: JSON.stringify(mes),
-    TopicArn: process.env.TopicArn 
-  };
-
-  return sns.publish(params).promise()
-    .then(data => {
-      console.log('Message published to SNS');
-      return data.MessageId;
-    })
-    .catch(err => {
-      console.error('Error publishing message to SNS:', err);
-      throw err;
-    });
+const SNSMessageParams = {
+  Message: JSON.stringify({
+      default: 'User submitted the assignment',
+      assignmentId:userInfo.assignmentId,
+      submissionUrl: userInfo.submissionUrl,
+  }),
+  TopicArn: process.env.AWS_SNS_TOPIC
 };
+sns.publish(SNSMessageParams, (err, data) => {
+    if (err) {
+        console.error(err, err.stack);
+        reject(err);
+    } else {
+        console.log("Message sent to the topic");
+        console.log("MessageID is " + data.MessageId);
+        resolve(data);
+    }
+});
