@@ -143,8 +143,10 @@ export const getAttempts = async (id) => {
   }
 };
 
+const awsProfile = 'dev';
+AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: awsProfile });
 
-// Set up AWS configuration
+
 AWS.config.update({
   region: 'US', 
   credentials: {
