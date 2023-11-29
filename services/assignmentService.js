@@ -167,7 +167,7 @@ export const publishToSNS = async (message,url_sns) => {
 
   return sns.publish(params).promise()
     .then(data => {
-      console.log('Message published to SNS:', data.MessageId);
+      console.log('Message published to SNS');
       return data.MessageId;
     })
     .catch(err => {
