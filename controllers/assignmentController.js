@@ -2,6 +2,7 @@ import * as assignmentService from "../services/assignmentService.js";
 import { getCredentials } from "../services/auth.js";
 //get all
 import logger from "../logger.cjs"
+
 export const getAllAssignments = async (req, res) => {
   try {
     // Fetch all assignments
@@ -95,5 +96,17 @@ export const updateAssignment = async (req, res) => {
   } catch (error) {
     // Handle any other errors and return a 500 Internal Server Error response
     res.status(400).json({ error: error.message });
+  }
+};
+
+export const createSubmission = async (req,res) => {
+  const ass_id = req.params.id;
+  const sub_url = req.body;
+  try{
+    const assignment = await assignmentService.createSubmission(ass_id,sub_url);
+    res.status(201).json(assignment);
+  }
+  catch(error){
+    res.status(400).json({error:error.message})
   }
 };
