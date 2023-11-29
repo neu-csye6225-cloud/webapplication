@@ -155,19 +155,19 @@ AWS.config.update({
 
 export const publishToSNS = async (message,url_sns) => {
 
-  const message = {
+  const mes = {
     default: 'Submission details', 
     url_sns, 
   };
   
   const params = {
-    Message: JSON.stringify(message),
+    Message: JSON.stringify(mes),
     TopicArn: process.env.TopicArn 
   };
 
   return sns.publish(params).promise()
     .then(data => {
-      console.log('Message published to SNS:', data.MessageId);
+      console.log('Message published to SNS');
       return data.MessageId;
     })
     .catch(err => {
