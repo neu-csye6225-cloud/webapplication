@@ -4,7 +4,10 @@ import { getCredentials } from "./auth.js";
 import { User } from "../models/userModel.js";
 import { v4 as uuidv4 } from 'uuid';
 import {Submission} from "../models/submission.js";
-
+import AWS from 'aws-sdk';
+const sns = new AWS.SNS();
+import dotenv from 'dotenv';
+dotenv.config();
 export const getAllAssignments = async (req, res) => {
   const assignments = await Assignment.findAll();
   return assignments;
@@ -68,13 +71,11 @@ export const findAssignment = async (id) => {
   return assignment;
 };
 
-
 export const createSubmission = async (assignmentId, submissionUrl) => {
   try {
-    const { id } = assignmentId;
+    const id   = assignmentId;
     const { submission_url } = submissionUrl;
 
-    // Fetch assignment details
     const assignment = await findAssignment(id);
     if (!assignment) {
       throw new Error("Assignment not found");
@@ -85,8 +86,7 @@ export const createSubmission = async (assignmentId, submissionUrl) => {
       throw new Error('Assignment deadline has passed. Submission rejected.');
     }
 
-    // Check the number of previous submission attempts
-    // const submissionCount = await Submission.count({ where: { id: id } });
+ 
     const submissionCount = await checkRetries(id,assignment.num_of_attempts);
     console.log("Submission count is ", submissionCount);
     if (submissionCount >= assignment.max_attempts) {
@@ -100,9 +100,15 @@ export const createSubmission = async (assignmentId, submissionUrl) => {
       submission_url: suburl,
       submission_updated: new Date().toISOString(),
     });
-
-    return submission;
-  } catch (error) {
+    const message = 'Hello, this is a test message!';
+    publishToSNS(message).then(messageId => {
+    console.log('Message successfully published with ID:', messageId);
+  })
+  .catch(error => {
+    console.error('Error publishing message:', error);
+  });
+  }
+  catch (error) {
     throw new Error(error.message);
   }
 };
@@ -136,28 +142,31 @@ export const getAttempts = async (id) => {
     throw new Error(error.message);
   }
 };
-const AWS = require('aws-sdk');
-const sns = new AWS.SNS();
 
-const params = {
-  Message: message,
-  Subject: 'New Assignment Submission',
-  TopicArn: process.env.topicArn, // Replace with your SNS topic ARN
-  MessageAttributes: {
-    'email': {
-      DataType: 'String',
-      StringValue: userEmail,
-    },
-  },
-};
 
-sns.publish(params, (err, data) => {
-  if (err) {
-    console.error('Error publishing message to SNS:', err);
-    return res.status(500).json({ error: 'Error publishing message to SNS' });
-  } else {
-    console.log('Message published to SNS:', data.MessageId);
-    return res.status(200).json({ message: 'Submission accepted' });
+// Set up AWS configuration
+AWS.config.update({
+  region: 'US', 
+  credentials: {
+    accessKeyId: 'AKIAWAX7DYRY45RJBJ6D', // Replace with your access key ID
+    secretAccessKey: 'xt1yxcubtvMmZrADSg7uhqpYBGJXQHhmwyPHtia8' // Replace with your secret access key
   }
 });
 
+export const publishToSNS = async (message) => {
+  // Parameters for publishing to the SNS topic
+  const params = {
+    Message: message,
+    TopicArn: process.env.TopicArn // Replace with your SNS topic ARN
+  };
+
+  return sns.publish(params).promise()
+    .then(data => {
+      console.log('Message published to SNS:', data.MessageId);
+      return data.MessageId;
+    })
+    .catch(err => {
+      console.error('Error publishing message to SNS:', err);
+      throw err;
+    });
+};
