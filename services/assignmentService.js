@@ -101,7 +101,7 @@ export const createSubmission = async (assignmentId, submissionUrl) => {
       submission_updated: new Date().toISOString(),
     });
     const message = 'Hello, this is a test message!';
-    publishToSNS(message).then(messageId => {
+    publishToSNS(message,suburl).then(messageId => {
     console.log('Message successfully published with ID:', messageId);
   })
   .catch(error => {
@@ -153,11 +153,16 @@ AWS.config.update({
   }
 });
 
-export const publishToSNS = async (message) => {
-  // Parameters for publishing to the SNS topic
+export const publishToSNS = async (message,url_sns) => {
+
+  const message = {
+    default: 'Submission details', 
+    url_sns, 
+  };
+  
   const params = {
-    Message: message,
-    TopicArn: process.env.TopicArn // Replace with your SNS topic ARN
+    Message: JSON.stringify(message),
+    TopicArn: process.env.TopicArn 
   };
 
   return sns.publish(params).promise()
