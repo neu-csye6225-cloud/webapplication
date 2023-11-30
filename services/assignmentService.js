@@ -4,6 +4,7 @@ import { getCredentials } from "./auth.js";
 import { User } from "../models/userModel.js";
 import { v4 as uuidv4 } from 'uuid';
 import {Submission} from "../models/submission.js";
+import publishMessageToSNS from "../snsservice.js"
 import AWS from 'aws-sdk';
 const sns = new AWS.SNS();
 import dotenv from 'dotenv';
@@ -104,9 +105,7 @@ export const createSubmission = async (assignmentId, submissionUrl) => {
       assignmentId:id,
       submissionUrl:suburl,
     }
-    publishToSNS(message,suburl).then(messageId => {
-    console.log('Message successfully published with ID:', messageId);
-  })
+    await publishMessageToSNS(message)
   .catch(error => {
     console.error('Error publishing message:', error);
   });
@@ -146,33 +145,4 @@ export const getAttempts = async (id) => {
   }
 };
 
-// const awsProfile = 'dev';
-// AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: awsProfile });
 
-
-AWS.config.update({
-  region: 'us-east-1', 
-  credentials: {
-    accessKeyId: 'AKIAWAX7DYRY45RJBJ6D', // Replace with your access key ID
-    secretAccessKey: 'xt1yxcubtvMmZrADSg7uhqpYBGJXQHhmwyPHtia8' // Replace with your secret access key
-  }
-});
-
-const SNSMessageParams = {
-  Message: JSON.stringify({
-      default: 'User submitted the assignment',
-      assignmentId:userInfo.assignmentId,
-      submissionUrl: userInfo.submissionUrl,
-  }),
-  TopicArn: process.env.AWS_SNS_TOPIC
-};
-sns.publish(SNSMessageParams, (err, data) => {
-    if (err) {
-        console.error(err, err.stack);
-        reject(err);
-    } else {
-        console.log("Message sent to the topic");
-        console.log("MessageID is " + data.MessageId);
-        resolve(data);
-    }
-});
