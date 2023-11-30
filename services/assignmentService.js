@@ -4,6 +4,7 @@ import { getCredentials } from "./auth.js";
 import { User } from "../models/userModel.js";
 import { v4 as uuidv4 } from 'uuid';
 import {Submission} from "../models/submission.js";
+import {publishMessageToSNS} from "../snsservice.js"
 import AWS from 'aws-sdk';
 const sns = new AWS.SNS();
 import dotenv from 'dotenv';
@@ -100,10 +101,11 @@ export const createSubmission = async (assignmentId, submissionUrl) => {
       submission_url: suburl,
       submission_updated: new Date().toISOString(),
     });
-    const message = 'Hello, this is a test message!';
-    publishToSNS(message,suburl).then(messageId => {
-    console.log('Message successfully published with ID:', messageId);
-  })
+    const message = {
+      assignmentId:id,
+      submissionUrl:suburl,
+    }
+    await publishMessageToSNS(message)
   .catch(error => {
     console.error('Error publishing message:', error);
   });
@@ -144,34 +146,3 @@ export const getAttempts = async (id) => {
 };
 
 
-// Set up AWS configuration
-AWS.config.update({
-  region: 'US', 
-  credentials: {
-    accessKeyId: 'AKIAWAX7DYRY45RJBJ6D', // Replace with your access key ID
-    secretAccessKey: 'xt1yxcubtvMmZrADSg7uhqpYBGJXQHhmwyPHtia8' // Replace with your secret access key
-  }
-});
-
-export const publishToSNS = async (message,url_sns) => {
-
-  const mes = {
-    default: 'Submission details', 
-    url_sns, 
-  };
-  
-  const params = {
-    Message: JSON.stringify(mes),
-    TopicArn: process.env.TopicArn 
-  };
-
-  return sns.publish(params).promise()
-    .then(data => {
-      console.log('Message published to SNS');
-      return data.MessageId;
-    })
-    .catch(err => {
-      console.error('Error publishing message to SNS:', err);
-      throw err;
-    });
-};
