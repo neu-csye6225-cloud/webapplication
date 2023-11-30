@@ -4,7 +4,7 @@ import { getCredentials } from "./auth.js";
 import { User } from "../models/userModel.js";
 import { v4 as uuidv4 } from 'uuid';
 import {Submission} from "../models/submission.js";
-import publishMessageToSNS from "../snsservice.js"
+import {publishMessageToSNS} from "../snsservice.js"
 import AWS from 'aws-sdk';
 const sns = new AWS.SNS();
 import dotenv from 'dotenv';
