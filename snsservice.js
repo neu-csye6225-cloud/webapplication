@@ -11,7 +11,7 @@ AWS.config.update({
   });
 
 
-const publishMessageToSNS = async (request, response) => {
+export const publishMessageToSNS = async (request, response) => {
   const message = "Assignment posted by the user"
  
   const attributes = {
@@ -54,5 +54,3 @@ const publishMessageToSNS = async (request, response) => {
     return error;
   }
 };
- 
-module.exports = publishMessageToSNS;
