@@ -77,7 +77,7 @@ jobs:
 
     - name: Create new Launch Template version
       run: |
-        latest_ami=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
+        latest_ami=${{AMI}}
         aws ec2 create-launch-template-version --launch-template-id ${{ secrets.LAUNCH_TEMPLATE_ID }} --source-version '$Latest' --launch-template-data "ImageId=$latest_ami"
 
     - name: Update ASG to use latest Launch Template version 
