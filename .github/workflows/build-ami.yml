@@ -75,9 +75,13 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
       run: packer build ami.us-east-1.pkr.hcl
 
+    - name: Retrieve Latest AMI ID
+      working-directory: ./ami
+      run: |
+        latest_ami=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
+
     - name: Create new Launch Template version
       run: |
-        latest_ami=${{AMI}}
         aws ec2 create-launch-template-version --launch-template-id ${{ secrets.LAUNCH_TEMPLATE_ID }} --source-version '$Latest' --launch-template-data "ImageId=$latest_ami"
 
     - name: Update ASG to use latest Launch Template version 
