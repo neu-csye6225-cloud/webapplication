@@ -76,4 +76,9 @@ build {
   provisioner "shell" {
     scripts = ["./setup.sh"]
   }
+  # Post-processor to generate a manifest
+  post-processor "manifest" {
+    output = "manifest.json"
+    strip_path = true
+  }
 }
