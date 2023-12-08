@@ -4,11 +4,11 @@ import { checkToken } from '../services/auth.js';
 
 const router = Router();
 
-router.get('/v2/assignments', checkToken, assignmentController.getAllAssignments);
-router.post('/v2/assignments', checkToken, assignmentController.createAssignment);
-router.get('/v2/assignments/:id', checkToken, assignmentController.getAssignmentById);
-router.delete('/v2/assignments/:id',checkToken,assignmentController.deleteAssignment);
-router.put('/v2/assignments/:id', checkToken, assignmentController.updateAssignment);
-router.post('/v2/assignments/:id/submission',checkToken, assignmentController.createSubmission);
+router.get('/v3/assignments', checkToken, assignmentController.getAllAssignments);
+router.post('/v3/assignments', checkToken, assignmentController.createAssignment);
+router.get('/v3/assignments/:id', checkToken, assignmentController.getAssignmentById);
+router.delete('/v3/assignments/:id',checkToken,assignmentController.deleteAssignment);
+router.put('/v3/assignments/:id', checkToken, assignmentController.updateAssignment);
+router.post('/v3/assignments/:id/submission',checkToken, assignmentController.createSubmission);
 
 export default router;
